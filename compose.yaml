@@ -1,0 +1,45 @@
+services:
+
+  # PostgreSQL для Pool-Service
+  pool-service-db:
+    image: postgres:17.4
+    container_name: pool-service-db
+    ports:
+      - "8050:5432"
+    environment:
+      - POSTGRES_USER=${POOL_DB_USER:-poolservice}
+      - POSTGRES_PASSWORD=${POOL_DB_PASSWORD:-poolservice}
+      - POSTGRES_DB=${POOL_DB_NAME:-pool-service}
+    volumes:
+      - pool_service_data:/var/lib/postgresql/data  # Сохраняем БД Pool-Service
+    networks:
+      -
+    restart: unless-stopped
+    healthcheck:
+      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Pool-Service API
+  pool-service:
+    build: pool-service
+    image: pool-service
+    container_name: pool-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pool-service-db:5432/${POOL_DB_NAME:-pool-service}
+      - SPRING_DATASOURCE_USERNAME=${POOL_DB_USER:-poolservice}
+      - SPRING_DATASOURCE_PASSWORD=${POOL_DB_PASSWORD:-poolservice}
+    networks:
+      -
+    depends_on:
+      pool-service-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+

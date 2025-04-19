@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS clients (
+
+);
+
+CREATE TABLE IF NOT EXISTS timetables (
+
+);
