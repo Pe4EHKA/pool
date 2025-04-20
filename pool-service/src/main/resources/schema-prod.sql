@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS clients
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT unique_phone UNIQUE (phone)
 );
-CREATE INDEX idx_client_name ON clients (name);
+CREATE INDEX IF NOT EXISTS idx_client_name ON clients (name);
 
 CREATE TABLE IF NOT EXISTS working_schedule
 (
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS reservation
         date_part('second', end_time) = 0
         )
 );
-CREATE INDEX idx_res_time ON reservation (start_time);
-CREATE INDEX idx_res_client_day ON reservation (client_id, start_time);
+CREATE INDEX IF NOT EXISTS idx_res_time ON reservation (start_time);
+CREATE INDEX IF NOT EXISTS idx_res_client_day ON reservation (client_id, start_time);
 
 
