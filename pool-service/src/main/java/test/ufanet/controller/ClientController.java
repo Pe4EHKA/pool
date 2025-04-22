@@ -1,9 +1,11 @@
 package test.ufanet.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import test.ufanet.dto.client.CreateClientDto;
 import test.ufanet.dto.client.FullClientDto;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping("/api/v0/pool/client")
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class ClientController {
 
     private final ClientService clientService;
@@ -34,13 +37,13 @@ public class ClientController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<FullClientDto> addClient(@RequestBody CreateClientDto dto) {
+    public ResponseEntity<FullClientDto> addClient(@RequestBody @Valid CreateClientDto dto) {
         log.info("POST /api/v0/pool/client/add, dto={}", dto);
         return new ResponseEntity<>(clientService.createClient(dto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<FullClientDto> updateClient(@RequestBody UpdateClientDto dto) {
+    @PutMapping("/update")
+    public ResponseEntity<FullClientDto> updateClient(@RequestBody @Valid UpdateClientDto dto) {
         log.info("POST /api/v0/pool/client/update, dto={}", dto);
         return ResponseEntity.ok(clientService.updateClient(dto));
     }

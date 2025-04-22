@@ -14,7 +14,7 @@ CREATE INDEX IF NOT EXISTS idx_client_name ON clients (name);
 
 CREATE TABLE IF NOT EXISTS working_schedule
 (
-    day_of_week SMALLINT NOT NULL CHECK ( day_of_week BETWEEN 1 AND 7),
+    day_of_week INT NOT NULL CHECK ( day_of_week BETWEEN 1 AND 7),
     start_time  TIME     NOT NULL,
     end_time    TIME     NOT NULL,
 

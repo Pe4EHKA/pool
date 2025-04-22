@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: pool-service
+  max-capacity: 10
 
 
   # Настройка DB и JPA

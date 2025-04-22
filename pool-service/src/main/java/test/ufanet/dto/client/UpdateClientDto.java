@@ -11,19 +11,19 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class UpdateClientDto {
 
-    @NotNull
+    @NotNull(message = "Id can't be null or empty")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name can't be null or empty")
     @Length(min = 1, max = 256)
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Phone can't be null or empty")
     @Length(min = 1, max = 50)
     private String phone;
 
     @Email
-    @NotBlank
+    @NotBlank(message = "Email can't be null or empty")
     @Length(min = 1, max = 256)
     private String email;
 }

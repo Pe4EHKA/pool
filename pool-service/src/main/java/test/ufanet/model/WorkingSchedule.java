@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class WorkingSchedule {
 
     @Id
-    private Short id;
+    private int id;
 
     @Column(name = "start_time", nullable = false)
     private LocalTime startTime;

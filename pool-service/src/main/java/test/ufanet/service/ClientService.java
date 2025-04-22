@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ClientService {
 
-    public List<ShortClientDto> getAllClients();
+    List<ShortClientDto> getAllClients();
 
-    public FullClientDto getClientById(Long id);
+    FullClientDto getClientById(Long id);
 
-    public FullClientDto createClient(CreateClientDto dto);
+    FullClientDto createClient(CreateClientDto dto);
 
-    public FullClientDto updateClient(UpdateClientDto dto);
+    FullClientDto updateClient(UpdateClientDto dto);
 }
