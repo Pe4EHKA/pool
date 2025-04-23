@@ -3,6 +3,7 @@ package test.ufanet.reservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,10 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import test.ufanet.controller.ReservationController;
-import test.ufanet.dto.reservation.CancelReservationDto;
-import test.ufanet.dto.reservation.CreateReservationDto;
-import test.ufanet.dto.reservation.ReservationDto;
-import test.ufanet.dto.reservation.ReservationResponseDto;
+import test.ufanet.dto.reservation.*;
+import test.ufanet.model.Reservation;
 import test.ufanet.service.ReservationService;
 
 import java.time.LocalDate;
@@ -71,6 +70,24 @@ class ReservationControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].time").value("2025-05-01T12:00"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].count").value(7));
+    }
+
+    @Test
+    @DisplayName("Должен найти по имени клиента или дате запись в бассейн")
+    void shouldSearchForReservations() throws Exception {
+        UUID orderId = UUID.randomUUID();
+
+        Mockito.when(reservationService.search(Mockito.any(String.class), Mockito.any(OffsetDateTime.class)))
+                .thenReturn(List.of(ReservationResponseDto.builder()
+                        .orderId(orderId)
+                        .build()));
+
+        mvc.perform(MockMvcRequestBuilders.get("/api/v0/pool/timetable/search")
+                        .param("name", "Ivan")
+                        .param("date", OffsetDateTime.now().toString()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(orderId.toString()));
     }
 
     @Test

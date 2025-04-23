@@ -8,10 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import test.ufanet.common.exception.BadRequestException;
 import test.ufanet.common.exception.ConflictException;
 import test.ufanet.common.exception.NotFoundException;
-import test.ufanet.dto.reservation.CancelReservationDto;
-import test.ufanet.dto.reservation.CreateReservationDto;
-import test.ufanet.dto.reservation.ReservationDto;
-import test.ufanet.dto.reservation.ReservationResponseDto;
+import test.ufanet.dto.reservation.*;
 import test.ufanet.mapper.ReservationMapper;
 import test.ufanet.model.Client;
 import test.ufanet.model.Reservation;
@@ -88,6 +85,14 @@ public class ReservationServiceImpl implements ReservationService {
                 .build();
 
         return ReservationMapper.toReservationResponseDto(reservationRepository.save(reservation));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReservationResponseDto> search(String name, OffsetDateTime date) {
+        List<Reservation> reservations = reservationRepository.search(name, date);
+
+        return ReservationMapper.toReservationResponseDtoList(reservations);
     }
 
     @Override

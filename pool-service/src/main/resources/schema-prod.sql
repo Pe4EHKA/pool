@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS reservation
     FOREIGN KEY (client_id) REFERENCES clients (id) ON DELETE CASCADE,
     CONSTRAINT unique_order_id UNIQUE (order_id),
     CONSTRAINT chk_reservation CHECK ( end_time > start_time ),
-    CONSTRAINT chk_slot CHECK (
+    CONSTRAINT chk_reservation_time CHECK (
         date_part('minute', start_time) = 0 AND
         date_part('second', start_time) = 0 AND
         date_part('minute', end_time) = 0 AND

@@ -13,10 +13,7 @@ import test.ufanet.common.exception.BadRequestException;
 import test.ufanet.common.exception.ConflictException;
 import test.ufanet.common.exception.NotFoundException;
 import test.ufanet.dto.client.CreateClientDto;
-import test.ufanet.dto.reservation.CancelReservationDto;
-import test.ufanet.dto.reservation.CreateReservationDto;
-import test.ufanet.dto.reservation.ReservationDto;
-import test.ufanet.dto.reservation.ReservationResponseDto;
+import test.ufanet.dto.reservation.*;
 import test.ufanet.model.Client;
 import test.ufanet.model.Reservation;
 import test.ufanet.model.WorkingSchedule;
@@ -24,6 +21,7 @@ import test.ufanet.repository.ClientRepository;
 import test.ufanet.repository.ReservationRepository;
 import test.ufanet.repository.ScheduleExceptionRepository;
 import test.ufanet.repository.WorkingScheduleRepository;
+import test.ufanet.service.ReservationService;
 import test.ufanet.service.ReservationServiceImpl;
 
 import java.time.LocalDate;
@@ -172,6 +170,31 @@ class ReservationServiceImplTest {
         Mockito.verify(reservationRepository,
                 Mockito.times(1)).existsForClientAndDay(client, date);
         Mockito.verify(reservationRepository, Mockito.times(1)).countByStartTime(startTime);
+    }
+
+    @Test
+    @DisplayName("Должен найти запись по Имени и/или Дате")
+    void shouldSearch() {
+        UUID orderId = UUID.randomUUID();
+
+        Mockito.when(reservationRepository.search(Mockito.any(String.class), Mockito.any(OffsetDateTime.class)))
+                .thenReturn(List.of(Reservation.builder()
+                        .id(1L)
+                        .client(client)
+                        .startTime(startTime)
+                        .endTime(startTime.plusHours(1))
+                        .createdAt(OffsetDateTime.now())
+                        .orderId(orderId)
+                        .build()));
+
+        List<ReservationResponseDto> result = reservationServiceImpl.search("Ivan", OffsetDateTime.now());
+
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.size()).isEqualTo(1);
+        Assertions.assertThat(result.getFirst().getOrderId()).isEqualTo(orderId);
+        Mockito.verify(reservationRepository,
+                Mockito.times(1)).search(Mockito.any(String.class),
+                Mockito.any(OffsetDateTime.class));
     }
 
 

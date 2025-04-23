@@ -7,13 +7,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import test.ufanet.dto.reservation.CancelReservationDto;
-import test.ufanet.dto.reservation.CreateReservationDto;
-import test.ufanet.dto.reservation.ReservationDto;
-import test.ufanet.dto.reservation.ReservationResponseDto;
+import test.ufanet.dto.reservation.*;
 import test.ufanet.service.ReservationService;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -38,6 +36,14 @@ public class ReservationController {
                                                                           .ISO.DATE) LocalDate date) {
         log.info("Get available hours for {}", date);
         return ResponseEntity.ok(reservationService.getAvailableHours(date));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ReservationResponseDto>> getReservations(@RequestParam(name = "name") String name,
+                                                                        @RequestParam(name = "date")
+                                                                        OffsetDateTime date) {
+        log.info("Get search reservations for {} | {}", name, date);
+        return ResponseEntity.ok(reservationService.search(name, date));
     }
 
     @PostMapping("/reserve")

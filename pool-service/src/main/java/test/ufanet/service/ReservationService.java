@@ -1,16 +1,16 @@
 package test.ufanet.service;
 
-import test.ufanet.dto.reservation.CancelReservationDto;
-import test.ufanet.dto.reservation.CreateReservationDto;
-import test.ufanet.dto.reservation.ReservationDto;
-import test.ufanet.dto.reservation.ReservationResponseDto;
+import test.ufanet.dto.reservation.*;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface ReservationService {
 
     ReservationResponseDto reserve(CreateReservationDto dto);
+
+    List<ReservationResponseDto> search(String name, OffsetDateTime date);
 
     void deleteReservation(CancelReservationDto dto);
 

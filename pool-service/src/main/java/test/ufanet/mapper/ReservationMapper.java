@@ -7,6 +7,7 @@ import test.ufanet.model.Reservation;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @UtilityClass
 public class ReservationMapper {
@@ -24,5 +25,11 @@ public class ReservationMapper {
         return ReservationResponseDto.builder()
                 .orderId(reservation.getOrderId())
                 .build();
+    }
+
+    public List<ReservationResponseDto> toReservationResponseDtoList(List<Reservation> reservations) {
+        return reservations.stream()
+                .map(ReservationMapper::toReservationResponseDto)
+                .toList();
     }
 }

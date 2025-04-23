@@ -29,7 +29,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             WHERE r.client = :client AND DATE(r.startTime) = :day
             """)
     boolean existsForClientAndDay(@Param("client") Client client,
-                                 @Param("day") LocalDate day);
+                                  @Param("day") LocalDate day);
 
     // Найти бронирование по id клиента и id заказа
     Optional<Reservation> findByClient_IdAndOrderId(Long clientId, UUID orderId);
@@ -41,5 +41,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             WHERE DATE(r.startTime) = :date
             """)
     List<Reservation> findAllByDay(@Param("day") LocalDate day);
+
+    @Query("""
+            SELECT r
+            FROM Reservation r JOIN r.client c
+            WHERE (:name IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%')))
+            AND (:day IS NULL OR r.startTime = :day)
+            """)
+    List<Reservation> search(@Param("name") String name,
+                             @Param("day") OffsetDateTime day);
 
 }
