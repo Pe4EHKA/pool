@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: pool-service
+  max-capacity: 10
   docker:
     compose:
       enabled: false
@@ -11,10 +12,10 @@ spring:
 
   # Настройка DB и JPA
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    driver-class-name: org.postgresql.Driver
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:h2:mem:main;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: test
+    password: test
 
   jpa:
     hibernate:
@@ -26,13 +27,14 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: schema-prod.sql
+      schema-locations: classpath:schema-test.sql
+      data-locations: classpath:data-test.sql
 
 management:
   endpoints:
     web:
       exposure:
-        include: *
+        include: "*"
   endpoint:
     health:
       show-details: always
