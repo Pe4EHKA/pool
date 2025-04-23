@@ -31,6 +31,7 @@ public class Reservation {
     private OffsetDateTime endTime;
 
     @Column(name = "order_id", nullable = false, unique = true, updatable = false)
+    @Builder.Default
     private UUID orderId = UUID.randomUUID();
 
     @Column(name = "created_at", nullable = false, updatable = false)

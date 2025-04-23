@@ -46,7 +46,7 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.reserve(dto), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/cancel")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteReservation(@RequestBody @Valid CancelReservationDto dto) {
         log.info("Delete reservation {}", dto);

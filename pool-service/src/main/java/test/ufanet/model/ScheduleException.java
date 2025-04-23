@@ -23,6 +23,7 @@ public class ScheduleException {
     private LocalDate exceptionDate;
 
     @Column(name = "is_working", nullable = false)
+    @Builder.Default
     private Boolean isWorking = false;
 
     @Column(name = "start_time", nullable = false)

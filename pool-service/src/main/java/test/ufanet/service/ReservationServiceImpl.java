@@ -77,7 +77,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<OffsetDateTime> preReservations = buildHoursSchedule(startTime, dto.getHours());
         for (OffsetDateTime preReservation : preReservations) {
             if (reservationRepository.countByStartTime(preReservation) >= MAX_CAPACITY) {
-                throw new ConflictException("No free places at time " + preReservation.toLocalTime());
+                throw new ConflictException("No free places at time " + preReservation.toLocalDateTime());
             }
         }
 
