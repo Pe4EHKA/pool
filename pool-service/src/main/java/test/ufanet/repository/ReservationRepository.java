@@ -34,14 +34,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     // Найти бронирование по id клиента и id заказа
     Optional<Reservation> findByClient_IdAndOrderId(Long clientId, UUID orderId);
 
-    // Получить записи на определенную дату
-    @Query("""
-            SELECT r
-            FROM Reservation r
-            WHERE DATE(r.startTime) = :date
-            """)
-    List<Reservation> findAllByDay(@Param("day") LocalDate day);
-
     @Query("""
             SELECT r
             FROM Reservation r JOIN r.client c

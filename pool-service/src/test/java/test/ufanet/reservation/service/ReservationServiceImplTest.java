@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import test.ufanet.common.exception.BadRequestException;
 import test.ufanet.common.exception.ConflictException;
 import test.ufanet.common.exception.NotFoundException;
-import test.ufanet.dto.client.CreateClientDto;
 import test.ufanet.dto.reservation.*;
 import test.ufanet.model.Client;
 import test.ufanet.model.Reservation;
@@ -21,7 +20,6 @@ import test.ufanet.repository.ClientRepository;
 import test.ufanet.repository.ReservationRepository;
 import test.ufanet.repository.ScheduleExceptionRepository;
 import test.ufanet.repository.WorkingScheduleRepository;
-import test.ufanet.service.ReservationService;
 import test.ufanet.service.ReservationServiceImpl;
 
 import java.time.LocalDate;

@@ -3,7 +3,6 @@ package test.ufanet.reservation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,7 +13,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import test.ufanet.controller.ReservationController;
 import test.ufanet.dto.reservation.*;
-import test.ufanet.model.Reservation;
 import test.ufanet.service.ReservationService;
 
 import java.time.LocalDate;
